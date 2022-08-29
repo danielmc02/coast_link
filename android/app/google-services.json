@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "711635158425",
+    "project_id": "coast-social-app",
+    "storage_bucket": "coast-social-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711635158425:android:d5c0ae386d06c86690ff08",
+        "android_client_info": {
+          "package_name": "com.example.coast_link"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "711635158425-vldbhqcrhlmpn43fc9ipj7re1u7j4g87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOrP8fWg7UCKcMzazTXHAyYaqqNZ4amz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "711635158425-vldbhqcrhlmpn43fc9ipj7re1u7j4g87.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "711635158425-umjk7ugu4cooc0ckhh92rnjpv9pqvnsb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coastLink"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
