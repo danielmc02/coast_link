@@ -67,10 +67,29 @@ class _IntroScreenState extends State<IntroScreen>
         ChangeNotifierProvider(create: (context) => IntroState()),
         ChangeNotifierProvider(create: (context) => HomeState())
       ],
-      child: Consumer<IntroState>(
-        builder: (context, algo, child) =>
-            PageView(scrollDirection: Axis.vertical, children: [
-          Scaffold(
+      child: 
+            PageView(scrollDirection: Axis.vertical,children: [
+              IntroPage(),
+              SignUpPage()
+            ],)
+        );
+      
+    
+  }
+}
+
+
+class IntroPage extends StatefulWidget {
+  const IntroPage({super.key});
+
+  @override
+  State<IntroPage> createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
            /* bottomSheet: BottomSheet(
                 animationController: animController,
                 enableDrag: true,
@@ -190,11 +209,7 @@ class _IntroScreenState extends State<IntroScreen>
                     ]),
               ),
             ),
-          ),
-          SignUpPage()
-        ]),
-      ),
-    );
+          );
   }
 }
 
@@ -226,7 +241,8 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<IntroState>(
-      builder: (context, algo, child) => Scaffold(
+      builder: (context, algo, child) => 
+      Scaffold(
           appBar: AppBar(
             title: const Text(
               "Sign Up",
