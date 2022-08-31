@@ -4,6 +4,7 @@ import 'package:coast_link/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,9 +37,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
-
 class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
 
@@ -46,20 +44,49 @@ class IntroScreen extends StatefulWidget {
   State<IntroScreen> createState() => _IntroScreenState();
 }
 
-class _IntroScreenState extends State<IntroScreen> {
+class _IntroScreenState extends State<IntroScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animController;
 
+  @override
+  void initState() {
+    animController = AnimationController(vsync: this,duration: Duration(seconds: 2));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => IntroState()),
-      ChangeNotifierProvider(create: (context) => HomeState())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => IntroState()),
+        ChangeNotifierProvider(create: (context) => HomeState())
+      ],
       child: Consumer<IntroState>(
         builder: (context, algo, child) =>
             PageView(scrollDirection: Axis.vertical, children: [
           Scaffold(
+           /* bottomSheet: BottomSheet(
+                animationController: animController,
+                enableDrag: true,
+                onClosing: () {},
+                builder: ((context) => Container(
+                    color: Colors.red,
+                    height: MediaQuery.of(context).size.height / 2,
+                    width: MediaQuery.of(context).size.width))),*/
+            backgroundColor: Color.fromARGB(244, 255, 255, 255),
             appBar: AppBar(
-              title: const Text("Coastal Social"),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: const Text(
+                "Coastal Social",
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             body: Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
@@ -70,6 +97,46 @@ class _IntroScreenState extends State<IntroScreen> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Spacer(),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          /*AnimatedTextKit(
+                            animatedTexts: [
+                              TyperAnimatedText(
+                                  textStyle: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  "Meet new people",
+                                  speed: Duration(milliseconds: 150)),
+                              TyperAnimatedText(
+                                  textStyle: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  "Create public events",
+                                  speed: Duration(milliseconds: 150)),
+                              TyperAnimatedText(
+                                  textStyle: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  "Find alike people",
+                                  speed: Duration(milliseconds: 150)),
+                              TyperAnimatedText(
+                                  textStyle: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  "Expand your friend group",
+                                  speed: Duration(milliseconds: 150)),
+                            ],
+                          ),*/
+                        ],
+                      ),
+                      Spacer(),
                       TextButton(
                         onPressed: () {},
                         style: ButtonStyle(
@@ -89,11 +156,42 @@ class _IntroScreenState extends State<IntroScreen> {
                               "Create Account",
                               style: TextStyle(fontSize: 80),
                             )))),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            showBottomSheet(context: context, builder: 
+                          (context)=> 
+                             Card(
+                              child: Column(children: [Container(width: 50,height: 50,color: Colors.red,)]),
+                            
+                            ));
+                          });
+                          
+                        },
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.transparent),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.black)),
+                        child: const SizedBox(
+                            height: 30,
+                            width: 200,
+                            child: Center(
+                                child: FittedBox(
+                                    child: Text(
+                              "Sign In",
+                              style: TextStyle(fontSize: 80),
+                            )))),
                       )
                     ]),
               ),
             ),
-          ),SignUpPage()
+          ),
+          SignUpPage()
         ]),
       ),
     );
@@ -108,7 +206,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-    late TextEditingController _emailController;
+  late TextEditingController _emailController;
   late TextEditingController _passwordController;
   @override
   void initState() {
@@ -140,7 +238,8 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           body: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: Form(key: algo.formGlobalKey,
+            child: Form(
+              key: algo.formGlobalKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,7 +276,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.2,
                     child: TextFormField(
-                      
                       validator: (String? value) {
                         if (value!.length < 6) {
                           return 'Password must be greater than 6 characters';
@@ -217,15 +315,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     onPressed: () async {
                       if (algo.formGlobalKey.currentState!.validate()) {
                         print(_emailController.text);
-                       await algo.auth.signUpEmailPassword(_emailController.text,  _passwordController.text);
+                        await algo.auth.signUpEmailPassword(
+                            _emailController.text, _passwordController.text);
                       }
-                     
                     },
                     style: ButtonStyle(
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20))),
-                        backgroundColor: MaterialStateProperty.all(Colors.black),
-                        foregroundColor: MaterialStateProperty.all(Colors.white)),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.black),
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.white)),
                     child: const SizedBox(
                         height: 30,
                         width: 200,

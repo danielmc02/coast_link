@@ -1,10 +1,11 @@
 
 
+import 'package:coast_link/services/authentication.dart';
 import 'package:flutter/material.dart';
 
 class HomeState extends ChangeNotifier
 {
-
+  AuthServices auth = AuthServices();
   int index = 2;
   
    List<Widget> pages = [TBApage(),MapPage(),ProfilePage()];

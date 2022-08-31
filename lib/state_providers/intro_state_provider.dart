@@ -6,7 +6,6 @@ class IntroState extends ChangeNotifier
 {
   final AuthServices auth = AuthServices();
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
-
   bool obscureText = true;
 
   void changeText()
