@@ -30,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 )),
                 appBar: AppBar(
-                  title: Text("HOME SCREEN"),
+                  elevation: 0,
+                  backgroundColor: algo.index == 1 ? Colors.transparent : Colors.white,
+                  title: Text("HOME SCREEN",style: (TextStyle(color: algo.index == 1 ? Colors.black : Colors.white)),),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
                     onTap: (value) {
@@ -52,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     currentIndex: algo.index,
                     items: <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(icon: Icon(Icons.abc), label: ""),
+                      BottomNavigationBarItem(icon: Icon(Icons.maps_ugc), label: ""),
                       BottomNavigationBarItem(icon: Icon(Icons.map), label: ""),
                       BottomNavigationBarItem(
                           icon: Icon(Icons.person), label: "")
