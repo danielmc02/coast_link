@@ -16,15 +16,14 @@ class _WrapperState extends State<Wrapper> {
   AuthServices _auth = AuthServices();
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(stream: _auth.getuser(),builder: (context, snapshot) {
-      if(snapshot.hasData)
-      {
-        return const HomeScreen();
-      }
-      else{
-        return const IntroScreen();
-      }
-      
-    } );
+    return StreamBuilder(
+        stream: _auth.getuser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          } else {
+            return const IntroScreen();
+          }
+        });
   }
 }

@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,129 +88,189 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  @override
+  void dispose()
+  {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-           /* bottomSheet: BottomSheet(
-                animationController: animController,
-                enableDrag: true,
-                onClosing: () {},
-                builder: ((context) => Container(
-                    color: Colors.red,
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width))),*/
-            backgroundColor: Color.fromARGB(244, 255, 255, 255),
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: const Text(
-                "Coastal Social",
-                style: TextStyle(color: Colors.black),
+    return Consumer<IntroState>(
+      builder: (context, algo, child) => 
+       Scaffold(
+             /* bottomSheet: BottomSheet(
+                  animationController: animController,
+                  enableDrag: true,
+                  onClosing: () {},
+                  builder: ((context) => Container(
+                      color: Colors.red,
+                      height: MediaQuery.of(context).size.height / 2,
+                      width: MediaQuery.of(context).size.width))),*/
+              backgroundColor: Color.fromARGB(255, 244, 244, 244),
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: const Text(
+                  "Coastal Social",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.only(bottom: 50.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Spacer(),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          /*AnimatedTextKit(
-                            animatedTexts: [
-                              TyperAnimatedText(
-                                  textStyle: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  "Meet new people",
-                                  speed: Duration(milliseconds: 150)),
-                              TyperAnimatedText(
-                                  textStyle: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  "Create public events",
-                                  speed: Duration(milliseconds: 150)),
-                              TyperAnimatedText(
-                                  textStyle: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  "Find alike people",
-                                  speed: Duration(milliseconds: 150)),
-                              TyperAnimatedText(
-                                  textStyle: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  "Expand your friend group",
-                                  speed: Duration(milliseconds: 150)),
-                            ],
-                          ),*/
-                        ],
-                      ),
-                      Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.black),
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.white)),
-                        child: const SizedBox(
-                            height: 30,
-                            width: 200,
-                            child: Center(
-                                child: FittedBox(
-                                    child: Text(
-                              "Create Account",
-                              style: TextStyle(fontSize: 80),
-                            )))),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            showBottomSheet(context: context, builder: 
-                          (context)=> 
+              body: Padding(
+                padding: const EdgeInsets.only(bottom: 50.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Spacer(),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Align(
+                                
+                                child: algo.titles[algo.currentIndex]
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.black),
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.white)),
+                          child: const SizedBox(
+                              height: 30,
+                              width: 200,
+                              child: Center(
+                                  child: FittedBox(
+                                      child: Text(
+                                "Create Account",
+                                style: TextStyle(fontSize: 80),
+                              )))),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showMaterialModalBottomSheet(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),context: context, builder: (context)=>
                              Card(
-                              child: Column(children: [Container(width: 50,height: 50,color: Colors.red,)]),
-                            
-                            ));
-                          });
-                          
+                              
+                              child: SizedBox(width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height/1.3,
+                              child: Column(
+                                children: [
+                                  Spacer(flex: 10,),
+                                  Text("Welcome, back!",style: TextStyle(fontSize: 30),),
+                                  Spacer(flex: 10),
+                                TextFormField(
+                        controller: _emailController,
+                        validator: (value) =>
+                            value!.contains("@student.cccd.edu") != true
+                                ? "Email must end in @student.cccd.edu"
+                                : null,
+                        decoration: InputDecoration(
+                          hintText: "Email",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.red)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.black)),
+                        ),
+                      ),
+                      Spacer(flex: 5,),
+                      TextFormField(
+                        validator: (String? value) {
+                          if (value!.length < 6) {
+                            return 'Password must be greater than 6 characters';
+                          }
+                          return null;
                         },
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.black)),
-                        child: const SizedBox(
-                            height: 30,
-                            width: 200,
-                            child: Center(
-                                child: FittedBox(
-                                    child: Text(
-                              "Sign In",
-                              style: TextStyle(fontSize: 80),
-                            )))),
-                      )
-                    ]),
+                        maxLines: 1,
+                        controller: _passwordController,
+                      
+                        decoration: InputDecoration(
+                          hintText: "Password",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.red)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.black)),
+                    
+                        ),
+                      ),
+                      Spacer(flex: 50,),TextButton(
+                      onPressed: ()  {
+                        algo.auth.signInEmailPassword(_emailController.text,_passwordController.text);
+                        
+                        print("Sign IN");
+                      },
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20))),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.white)),
+                      child: const SizedBox(
+                          height: 30,
+                          width: 200,
+                          child: Center(
+                              child: FittedBox(
+                                  child: Text(
+                            "Sign In",
+                            style: TextStyle(fontSize: 80),
+                          )))),
+                    ),Spacer(flex: 15,)],
+                              ),),
+                             ));
+                            
+                          },
+                          style: ButtonStyle(
+                            side: MaterialStateProperty.all(BorderSide(color: Colors.black)),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.black),),
+                          child: const SizedBox(
+                              height: 30,
+                              width: 200,
+                              child: Center(
+                                  child: FittedBox(
+                                      child: Text(
+                                "Sign In",
+                                style: TextStyle(fontSize: 80),
+                              )))),
+                        )
+                      ]),
+                ),
               ),
             ),
-          );
+    );
   }
 }
 

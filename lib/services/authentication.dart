@@ -38,6 +38,22 @@ late User _user = _auth.currentUser!;
   }
 
 
+  Future signInEmailPassword(String emailAddress, String password) async {
+    print(emailAddress);
+    try {
+      final credential = await _auth
+          .signInWithEmailAndPassword(email: emailAddress, password: password);
+      User? user = credential.user;
+      //publicUser = user;
+      debugPrint("Sucess user signed in. Welcome ${user!.uid.toString()}");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 
   //Sign out
   Future signOut() async {
