@@ -317,105 +317,117 @@ class _SignUpPageState extends State<SignUpPage> {
             width: MediaQuery.of(context).size.width,
             child: Form(
               key: algo.formGlobalKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+              child: PageView(
                 children: [
-                  const Spacer(
-                    flex: 10,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    child: TextFormField(
-                      controller: _emailController,
-                      validator: (value) =>
-                          value!.contains("@student.cccd.edu") != true
-                              ? "Email must end in @student.cccd.edu"
-                              : null,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.red)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.black)),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,children: [
+                      Text("Choose some interests"),
+                      TextButton(onPressed: ()=>algo.getCategories(), child: Text("Click Me"))
+                    ],)
+                  ,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Spacer(
+                        flex: 10,
                       ),
-                    ),
-                  ),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    child: TextFormField(
-                      validator: (String? value) {
-                        if (value!.length < 6) {
-                          return 'Password must be greater than 6 characters';
-                        }
-                        return null;
-                      },
-                      maxLines: 1,
-                      controller: _passwordController,
-                      obscureText: algo.obscureText,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.red)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.black)),
-                        suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                algo.changeText();
-                              });
-                            },
-                            child: algo.obscureText
-                                ? const Icon(Icons.visibility_off)
-                                : const Icon(Icons.visibility)),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: TextFormField(
+                          controller: _emailController,
+                          validator: (value) =>
+                              value!.contains("@student.cccd.edu") != true
+                                  ? "Email must end in @student.cccd.edu"
+                                  : null,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Colors.red)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Colors.black)),
+                          ),
+                        ),
                       ),
-                    ),
+                      const Spacer(
+                        flex: 1,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        child: TextFormField(
+                          validator: (String? value) {
+                            if (value!.length < 6) {
+                              return 'Password must be greater than 6 characters';
+                            }
+                            return null;
+                          },
+                          maxLines: 1,
+                          controller: _passwordController,
+                          obscureText: algo.obscureText,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Colors.red)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Colors.black)),
+                            suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    algo.changeText();
+                                  });
+                                },
+                                child: algo.obscureText
+                                    ? const Icon(Icons.visibility_off)
+                                    : const Icon(Icons.visibility)),
+                          ),
+                        ),
+                      ),
+                      const Spacer(
+                        flex: 10,
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          if (algo.formGlobalKey.currentState!.validate()) {
+                            print(_emailController.text);
+                            await algo.auth.signUpEmailPassword(
+                                _emailController.text, _passwordController.text);
+                          }
+                        },
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20))),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.black),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.white)),
+                        child: const SizedBox(
+                            height: 30,
+                            width: 200,
+                            child: Center(
+                                child: FittedBox(
+                                    child: Text(
+                              "Sign Up",
+                              style: TextStyle(fontSize: 80),
+                            )))),
+                      ),
+                      const Spacer(
+                        flex: 2,
+                      )
+                    ],
                   ),
-                  const Spacer(
-                    flex: 10,
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      if (algo.formGlobalKey.currentState!.validate()) {
-                        print(_emailController.text);
-                        await algo.auth.signUpEmailPassword(
-                            _emailController.text, _passwordController.text);
-                      }
-                    },
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white)),
-                    child: const SizedBox(
-                        height: 30,
-                        width: 200,
-                        child: Center(
-                            child: FittedBox(
-                                child: Text(
-                          "Sign Up",
-                          style: TextStyle(fontSize: 80),
-                        )))),
-                  ),
-                  const Spacer(
-                    flex: 2,
-                  )
                 ],
               ),
             ),

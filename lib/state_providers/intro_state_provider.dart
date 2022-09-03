@@ -1,11 +1,21 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:coast_link/services/authentication.dart';
+import 'package:coast_link/services/database/firestore_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class IntroState extends ChangeNotifier
 {
+void getCategories()
+{
+  late List<String> categories;
+ {
+  db.getCategories();
+ }
+}
+ 
+  final FireCloudServices db = FireCloudServices();
   final AuthServices auth = AuthServices();
   GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
   bool obscureText = true;
@@ -110,5 +120,14 @@ class _SecondTitleState extends State<SecondTitle> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                 );
+  }
+}
+
+class ChipTemplate extends StatelessWidget {
+  const ChipTemplate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(label: Text("Sasfgasfmple"));
   }
 }
