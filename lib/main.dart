@@ -1,15 +1,16 @@
+import 'package:coast_link/components/sliding_sheet.dart';
 import 'package:coast_link/state_providers/home_state_provider.dart';
 import 'package:coast_link/state_providers/intro_state_provider.dart';
 import 'package:coast_link/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 
@@ -51,7 +52,8 @@ class _IntroScreenState extends State<IntroScreen>
 
   @override
   void initState() {
-    animController = AnimationController(vsync: this,duration: Duration(seconds: 2));
+    animController =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
     super.initState();
   }
 
@@ -64,21 +66,20 @@ class _IntroScreenState extends State<IntroScreen>
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => IntroState()),
-        ChangeNotifierProvider(create: (context) => HomeState())
-      ],
-      child: 
-            PageView(scrollDirection: Axis.vertical,children: [
-              IntroPage(),
-              SignUpPage()
-            ],)
-        );
-      
-    
+        providers: [
+          ChangeNotifierProvider(create: (context) => IntroState()),
+          ChangeNotifierProvider(create: (context) => HomeState())
+        ],
+        child: Consumer<IntroState>(
+          builder: (context, algo, child) => PageView(
+            controller: algo.pageController,
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            children: [IntroPage(), SignUpPage()],
+          ),
+        ));
   }
 }
-
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -91,144 +92,193 @@ class _IntroPageState extends State<IntroPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   @override
-  void dispose()
-  {
+  void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<IntroState>(
-      builder: (context, algo, child) => 
-       Scaffold(
-             /* bottomSheet: BottomSheet(
-                  animationController: animController,
-                  enableDrag: true,
-                  onClosing: () {},
-                  builder: ((context) => Container(
-                      color: Colors.red,
-                      height: MediaQuery.of(context).size.height / 2,
-                      width: MediaQuery.of(context).size.width))),*/
-              backgroundColor: Color.fromARGB(255, 244, 244, 244),
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                title: const Text(
-                  "Coastal Social",
-                  style: TextStyle(color: Colors.black),
-                ),
+      builder: (context, algo, child) => Stack(
+        children: [
+          Scaffold(
+            /* bottomSheet: BottomSheet(
+                      animationController: animController,
+                      enableDrag: true,
+                      onClosing: () {},
+                      builder: ((context) => Container(
+                          color: Colors.red,
+                          height: MediaQuery.of(context).size.height / 2,
+                          width: MediaQuery.of(context).size.width))),*/
+            backgroundColor: Color.fromARGB(255, 244, 244, 244),
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: const Text(
+                "Coastal Social",
+                style: TextStyle(color: Colors.black),
               ),
-              body: Padding(
-                padding: const EdgeInsets.only(bottom: 50.0),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Spacer(),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Align(
-                                
-                                child: algo.titles[algo.currentIndex]
-                              ),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
-                              foregroundColor:
-                                  MaterialStateProperty.all(Colors.white)),
-                          child: const SizedBox(
-                              height: 30,
-                              width: 200,
-                              child: Center(
-                                  child: FittedBox(
-                                      child: Text(
-                                "Create Account",
-                                style: TextStyle(fontSize: 80),
-                              )))),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            showMaterialModalBottomSheet(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),context: context, builder: (context)=>
-                             Card(
-                              
-                              child: SizedBox(width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height/1.3,
-                              child: Column(
-                                children: [
-                                  Spacer(flex: 10,),
-                                  Text("Welcome, back!",style: TextStyle(fontSize: 30),),
-                                  Spacer(flex: 10),
-                                TextFormField(
-                        controller: _emailController,
-                        validator: (value) =>
-                            value!.contains("@student.cccd.edu") != true
-                                ? "Email must end in @student.cccd.edu"
-                                : null,
-                        decoration: InputDecoration(
-                          hintText: "Email",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.red)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.black)),
-                        ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.only(bottom: 50.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Spacer(),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Align(child: algo.titles[algo.currentIndex]),
+                          ),
+                        ],
                       ),
-                      Spacer(flex: 5,),
-                      TextFormField(
-                        validator: (String? value) {
-                          if (value!.length < 6) {
-                            return 'Password must be greater than 6 characters';
-                          }
-                          return null;
+                      Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            algo.pageController.animateToPage(1,
+                                duration: Duration(seconds: 1),
+                                curve: Curves.decelerate);
+                          });
                         },
-                        maxLines: 1,
-                        controller: _passwordController,
-                      
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.red)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.black)),
-                    
-                        ),
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.black),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.white)),
+                        child: const SizedBox(
+                            height: 30,
+                            width: 200,
+                            child: Center(
+                                child: FittedBox(
+                                    child: Text(
+                              "Create Account",
+                              style: TextStyle(fontSize: 80),
+                            )))),
                       ),
-                      Spacer(flex: 50,),TextButton(
-                      onPressed: ()  {
-                        algo.auth.signInEmailPassword(_emailController.text,_passwordController.text);
-                        
+                      TextButton(
+                        onPressed: () {
+                          /* showMaterialModalBottomSheet(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),context: context, builder: (context)=>
+                                 );
+                                */
+                          algo.panelState == PanelState.CLOSED ? algo.panelActivate() : algo.panelDeactivate();
+                        },
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Colors.black)),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.black),
+                        ),
+                        child: const SizedBox(
+                            height: 30,
+                            width: 200,
+                            child: Center(
+                                child: FittedBox(
+                                    child: Text(
+                              "Sign In",
+                              style: TextStyle(fontSize: 80),
+                            )))),
+                      )
+                    ]),
+              ),
+            ),
+          ),
+          SlidingUpPanel(
+            controller: algo.panelController,
+            panel: Padding(
+              padding: EdgeInsets.all(20),
+              child: Card(elevation: 0,
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    Row(mainAxisSize: MainAxisSize.max,children: [GestureDetector(onTap: () => algo.panelDeactivate(),child: Icon(Icons.close))],),
+                    Spacer(
+                      flex: 10,
+                    ),
+                    Text(
+                      "Welcome, back!",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    Spacer(flex: 10),
+                    TextFormField(
+                      controller: _emailController,
+                      validator: (value) =>
+                          value!.contains("@student.cccd.edu") != true
+                              ? "Email must end in @student.cccd.edu"
+                              : null,
+                      decoration: InputDecoration(
+                        hintText: "Email",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.red)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                const BorderSide(color: Colors.black)),
+                      ),
+                    ),
+                    Spacer(
+                      flex: 5,
+                    ),
+                    TextFormField(
+                      validator: (String? value) {
+                        if (value!.length < 6) {
+                          return 'Password must be greater than 6 characters';
+                        }
+                        return null;
+                      },
+                      maxLines: 1,
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.red)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                const BorderSide(color: Colors.black)),
+                      ),
+                    ),
+                    Spacer(
+                      flex: 50,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        algo.auth.signInEmailPassword(
+                            _emailController.text, _passwordController.text);
+
                         print("Sign IN");
                       },
                       style: ButtonStyle(
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20))),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.black),
                           foregroundColor:
@@ -242,34 +292,27 @@ class _IntroPageState extends State<IntroPage> {
                             "Sign In",
                             style: TextStyle(fontSize: 80),
                           )))),
-                    ),Spacer(flex: 15,)],
-                              ),),
-                             ));
-                            
-                          },
-                          style: ButtonStyle(
-                            side: MaterialStateProperty.all(BorderSide(color: Colors.black)),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                              foregroundColor:
-                                  MaterialStateProperty.all(Colors.black),),
-                          child: const SizedBox(
-                              height: 30,
-                              width: 200,
-                              child: Center(
-                                  child: FittedBox(
-                                      child: Text(
-                                "Sign In",
-                                style: TextStyle(fontSize: 80),
-                              )))),
-                        )
-                      ]),
+                    ),
+                    Spacer(
+                      flex: 15,
+                    )
+                  ],
                 ),
               ),
             ),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            defaultPanelState: algo.panelState,
+            snapPoint: .9,
+            color: Colors.white,
+            slideDirection: SlideDirection.UP,
+            minHeight: 0,
+            maxHeight: MediaQuery.of(context).size.height / 1.1,
+            renderPanelSheet: true,
+            isDraggable: false,
+          )
+        ],
+      ),
     );
   }
 }
@@ -302,9 +345,8 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<IntroState>(
-      builder: (context, algo, child) => 
-      Scaffold(
-          appBar: AppBar(
+      builder: (context, algo, child) => Scaffold(
+          appBar: AppBar(leading: GestureDetector(onTap: () => algo.pageController.animateToPage(0, duration: Duration(seconds: 1), curve: Curves.decelerate),child: Icon(Icons.close, color: Colors.black,)),
             title: const Text(
               "Sign Up",
               style: TextStyle(color: Colors.black),
@@ -322,11 +364,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,children: [
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
                       Text("Choose some interests"),
-                      TextButton(onPressed: ()=>algo.getCategories(), child: Text("Click Me"))
-                    ],)
-                  ,
+                      TextButton(
+                          onPressed: () => algo.getCategories(),
+                          child: Text("Click Me"))
+                    ],
+                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -350,10 +395,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 borderRadius: BorderRadius.circular(10)),
                             errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(color: Colors.red)),
+                                borderSide:
+                                    const BorderSide(color: Colors.red)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(color: Colors.black)),
+                                borderSide:
+                                    const BorderSide(color: Colors.black)),
                           ),
                         ),
                       ),
@@ -379,10 +426,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 borderRadius: BorderRadius.circular(10)),
                             errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(color: Colors.red)),
+                                borderSide:
+                                    const BorderSide(color: Colors.red)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(color: Colors.black)),
+                                borderSide:
+                                    const BorderSide(color: Colors.black)),
                             suffixIcon: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -403,12 +452,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           if (algo.formGlobalKey.currentState!.validate()) {
                             print(_emailController.text);
                             await algo.auth.signUpEmailPassword(
-                                _emailController.text, _passwordController.text);
+                                _emailController.text,
+                                _passwordController.text);
                           }
                         },
                         style: ButtonStyle(
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20))),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.black),
                             foregroundColor:

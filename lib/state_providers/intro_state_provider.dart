@@ -4,9 +4,24 @@ import 'package:coast_link/services/authentication.dart';
 import 'package:coast_link/services/database/firestore_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:coast_link/components/sliding_sheet.dart';
 class IntroState extends ChangeNotifier
 {
+  PanelController panelController = PanelController();
+  PageController pageController = PageController();
+  void panelActivate()
+  {
+    panelController.open();
+    panelState = PanelState.OPEN;
+   notifyListeners();
+  }
+  void panelDeactivate()
+  {
+    panelController.close();
+    panelState = PanelState.CLOSED;
+    notifyListeners();
+  }
+  PanelState panelState = PanelState.CLOSED;
 void getCategories()
 {
   late List<String> categories;
