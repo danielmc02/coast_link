@@ -12,15 +12,15 @@ class ProfilePage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: FittedBox(
           child: Row(mainAxisSize: MainAxisSize.max,mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(child: Icon(Icons.person,size: 50,),radius: 50,),
+          children:const [
+            CircleAvatar(radius: 50,child: Icon(Icons.person,size: 50,),),
             SizedBox(width: 20,),
             Text("Daniel McC...",style: TextStyle(fontSize: 60),)
           ],),
           
         ),
       ),
-      Divider(color: Colors.black,thickness: 1,indent: 10,endIndent: 10,)
+     const  Divider(color: Colors.black,thickness: 1,indent: 10,endIndent: 10,)
      ] 
     );
   }

@@ -24,7 +24,6 @@ class IntroState extends ChangeNotifier
   PanelState panelState = PanelState.CLOSED;
 void getCategories()
 {
-  late List<String> categories;
  {
   db.getCategories();
  }
@@ -42,13 +41,25 @@ void getCategories()
   }
   int currentIndex = 0;
 
-  List<Widget> titles = [FirstTitle(),SecondTitle()];
+  List<Widget> titles = [const FirstTitle(),const SecondTitle()];
   void changeIndex()
   {
     currentIndex = 1;
     notifyListeners();
   }
+
+
+  // Beggining of Sign Up States
+
+  bool? ExtrovertedActivitesCard;
+  bool? IntrovertedActivitesCard;
+  
 }
+
+
+
+
+
 
 class FirstTitle extends StatefulWidget {
   const FirstTitle({super.key});
@@ -128,9 +139,9 @@ class _SecondTitleState extends State<SecondTitle> {
     return ColorizeAnimatedTextKit(
                                   repeatForever: false,
                                   isRepeatingAnimation: false,
-                                  text: ["Costal Social"], colors: [
+                                  text: const ["Costal Social"], colors: const [
                                     Colors.red,Colors.blue,Colors.red,Colors.red
-                                  ], textStyle: TextStyle(
+                                  ], textStyle: const TextStyle(
                                           fontSize: 40,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -143,6 +154,6 @@ class ChipTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Chip(label: Text("Sasfgasfmple"));
+    return const Chip(label: Text("Sasfgasfmple"));
   }
 }
