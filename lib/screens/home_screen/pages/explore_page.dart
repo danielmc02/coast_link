@@ -67,7 +67,7 @@ class MapPage extends StatelessWidget {
             ),
           )*/
         SlidingUpPanel(
-          minHeight: 80,
+          minHeight: 60,
           panel: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -100,6 +100,15 @@ class MapPage extends StatelessWidget {
           ),
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        ),
+        SafeArea(
+          top: true,
+          child: Row(mainAxisSize: MainAxisSize.max,children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(radius: 30,child: Icon(Icons.menu,size:30),backgroundColor: Color.fromARGB(127, 255, 255, 255),),
+            )
+          ],),
         )
       ],
     );

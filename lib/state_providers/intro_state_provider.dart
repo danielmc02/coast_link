@@ -51,8 +51,23 @@ void getCategories()
 
   // Beggining of Sign Up States
 
-  bool? ExtrovertedActivitesCard;
-  bool? IntrovertedActivitesCard;
+  bool ExtrovertedActivitesCard = false;
+  bool IntrovertedActivitesCard = false;
+
+  void choseExtroverted()
+  {
+    ExtrovertedActivitesCard = true;
+    IntrovertedActivitesCard = false;
+    notifyListeners();
+  }
+  void choseIntroverted()
+  {
+    IntrovertedActivitesCard = true;
+    ExtrovertedActivitesCard = false;
+    notifyListeners();
+  }
+
+
   
 }
 
@@ -84,7 +99,7 @@ class _FirstTitleState extends State<FirstTitle> {
                                             fontSize: 40,
                                             fontWeight: FontWeight.w600,
                                           ),
-                                          "Meet new people",
+                                          "Try new things",
                                           //speed: Duration(milliseconds: 150)
                                           ),
                                       RotateAnimatedText(
@@ -93,7 +108,7 @@ class _FirstTitleState extends State<FirstTitle> {
                                             fontSize: 40,
                                             fontWeight: FontWeight.w600,
                                           ),
-                                          "Try new things",
+                                          "Meet new people",
                                           //speed: Duration(milliseconds: 150)
                                           ),
                                       RotateAnimatedText(

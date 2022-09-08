@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
           headline2: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 60,fontWeight: FontWeight.w300),
           headline3: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 48,fontWeight: FontWeight.w400),
           headline4: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 34,fontWeight: FontWeight.w400),
-          headline5: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 24,fontWeight: FontWeight.w400),
-          headline6: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 20,fontWeight: FontWeight.w500,color: Theme.of(context).colorScheme.onPrimary),
-          subtitle1: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 16,fontWeight: FontWeight.w400,color: Theme.of(context).colorScheme.onPrimary),
+          headline5: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 24,fontWeight: FontWeight.w400,),
+          headline6: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 20,fontWeight: FontWeight.w500),
+          subtitle1: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 16,fontWeight: FontWeight.w400),
           subtitle2: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 14,fontWeight: FontWeight.w500),
           bodyText1: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 26,fontWeight: FontWeight.w300)
           //TextStyle(fontSize: 16,fontWeight: FontWeight.w300, fontFamily: GoogleFonts.oswald(),color: Theme.of(context).colorScheme.onPrimary),

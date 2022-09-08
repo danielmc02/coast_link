@@ -57,10 +57,15 @@ class _SignUpPageState extends State<SignUpPage> {
                        FittedBox(child: Text("Choose some interests",style: Theme.of(context).textTheme.headline4,)),
                        FittedBox(child: Text(textAlign:TextAlign.center,"Used to group people with alike personalities.\nChoose no preference if you don't care who you match with",style: Theme.of(context).textTheme.subtitle2,)),
                       //TextButton( onPressed: () => algo.getCategories(),child: const Text("Click Me"))
-                      Wrap(
-                        direction: Axis.horizontal,
-
-                        children: [ExtrovertedActivites(),IntrovertedActivites()],
+                      Expanded(
+                        child: Center(
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            runSpacing: 100,
+                            children: [ExtrovertedActivites(),IntrovertedActivites()
+                            ],
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -69,8 +74,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                    FittedBox(child: Text("Choose some hobbies",style: Theme.of(context).textTheme.headline4,)),
-                      Wrap(),
+                    FittedBox(child: Text( algo.ExtrovertedActivitesCard ? "Choose some hobbies" : algo.IntrovertedActivitesCard ? "Choose some hobbies" : "None were chosen"
+                    ,style: Theme.of(context).textTheme.headline4,)),
+                      Wrap(
+                        children: [
+                          if(algo.ExtrovertedActivitesCard) Text("Extroverted chips")
+                          else if (algo.IntrovertedActivitesCard) Text("Introverted chips")
+                          else Text("None Was Chosen")
+                        ],
+                      ),
                       Container(color: Colors.red,height: 20,)
                     ],
                   ),
