@@ -1,9 +1,9 @@
 import 'package:coast_link/screens/intro_screen/sign_up_screen/components/activity_card.dart';
+import 'package:coast_link/screens/intro_screen/sign_up_screen/components/extroverted_chips.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../state_providers/intro_state_provider.dart';
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -34,7 +34,15 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Consumer<IntroState>(
       builder: (context, algo, child) => Scaffold(
-          appBar: AppBar(leading: GestureDetector(onTap: () => algo.pageController.animateToPage(0, duration: const Duration(seconds: 1), curve: Curves.decelerate),child: const Icon(Icons.close, color: Colors.black,)),
+          appBar: AppBar(
+            leading: GestureDetector(
+                onTap: () => algo.pageController.animateToPage(0,
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.decelerate),
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.black,
+                )),
             title: const Text(
               "Sign Up",
               style: TextStyle(color: Colors.black),
@@ -54,15 +62,26 @@ class _SignUpPageState extends State<SignUpPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                       FittedBox(child: Text("Choose some interests",style: Theme.of(context).textTheme.headline4,)),
-                       FittedBox(child: Text(textAlign:TextAlign.center,"Used to group people with alike personalities.\nChoose no preference if you don't care who you match with",style: Theme.of(context).textTheme.subtitle2,)),
+                      FittedBox(
+                          child: Text(
+                        "Choose some interests",
+                        style: Theme.of(context).textTheme.headline4,
+                      )),
+                      FittedBox(
+                          child: Text(
+                        textAlign: TextAlign.center,
+                        "Used to group people with alike personalities.\nChoose no preference if you don't care who you match with",
+                        style: Theme.of(context).textTheme.subtitle2,
+                      )),
                       //TextButton( onPressed: () => algo.getCategories(),child: const Text("Click Me"))
                       Expanded(
                         child: Center(
                           child: Wrap(
                             direction: Axis.horizontal,
                             runSpacing: 100,
-                            children: [ExtrovertedActivites(),IntrovertedActivites()
+                            children: [
+                              ExtrovertedActivites(),
+                              IntrovertedActivites()
                             ],
                           ),
                         ),
@@ -74,16 +93,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                    FittedBox(child: Text( algo.ExtrovertedActivitesCard ? "Choose some hobbies" : algo.IntrovertedActivitesCard ? "Choose some hobbies" : "None were chosen"
-                    ,style: Theme.of(context).textTheme.headline4,)),
-                      Wrap(
-                        children: [
-                          if(algo.ExtrovertedActivitesCard) Text("Extroverted chips")
-                          else if (algo.IntrovertedActivitesCard) Text("Introverted chips")
-                          else Text("None Was Chosen")
-                        ],
-                      ),
-                      Container(color: Colors.red,height: 20,)
+                      FittedBox(
+                          child: Text(
+                        algo.ExtrovertedActivitesCard
+                            ? "Choose some hobbies"
+                            : algo.IntrovertedActivitesCard
+                                ? "Choose some hobbies"
+                                : "None were chosen",
+                        style: Theme.of(context).textTheme.headline4,
+                      )),
+                      if (algo.ExtrovertedActivitesCard)
+                        Text("Extroverted chips")
+                      else if (algo.IntrovertedActivitesCard)
+                        Text("Introverted chips")
+                      else
+                        Text("None Was Chosen"),
+                      Expanded(
+                        child: 
+                          ExtrovertedChips()
+                          
+                        ),
+                        //children: [Flexible(child: algo.wrapedChips())],
+                      
+                      
                     ],
                   ),
                   Column(
