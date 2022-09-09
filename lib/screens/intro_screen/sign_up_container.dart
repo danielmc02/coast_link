@@ -109,21 +109,64 @@ class _SignUpPageState extends State<SignUpPage> {
                       else
                         Text("None Was Chosen"),
                       Expanded(
-                        child: 
-                          SingleChildScrollView(child: algo.ExtrovertedActivitesCard ? ExtrovertedChips() :algo.IntrovertedActivitesCard ? IntrovertedChips() : Text("error")
-                          ) 
-                          
-                        ),
-                        //children: [Flexible(child: algo.wrapedChips())],
-                      
-                      
+                          child: SingleChildScrollView(
+                              child: algo.ExtrovertedActivitesCard
+                                  ? ExtrovertedChips()
+                                  : algo.IntrovertedActivitesCard
+                                      ? IntrovertedChips()
+                                      : Text("error"))),
+                      //children: [Flexible(child: algo.wrapedChips())],
                     ],
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      FittedBox(
+                        child: Text(
+                          'Complete your profile',
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
+                      ),
+                      FittedBox(
+                          child: Text(
+                        textAlign: TextAlign.center,
+                        "Add a profile photo, name and bio to let people know who you are",
+                        style: Theme.of(context).textTheme.subtitle2,
+                      )),
+                       Align(
+                        
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            child: CircleAvatar(
+                              radius: 40.0+30,
+                              backgroundColor: Colors.white,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.yellow,
+                                foregroundColor: Colors.yellow,
+                                backgroundImage: NetworkImage(
+                                  'https://depositphotos.com/stock-photos/default-profile-photo.html'
+                                ),
+                                radius: 38.0+30,
+                                child:  Align(
+                                  alignment: Alignment.topRight,
+                                  child: CircleAvatar(
+                                    
+                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                                    radius: 12.0+15,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      size: 15.0+15,
+                                      color: Color(0xFF404040),
+                                    ),
+                                  ),
+                                ),
+                               
+                              ),
+                            ),
+                          ),
+                        ),
                       const Spacer(
                         flex: 10,
                       ),
@@ -136,6 +179,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ? "Email must end in @student.cccd.edu"
                                   : null,
                           decoration: InputDecoration(
+                            hintText: "Email",
+
+                            fillColor: Colors.grey[200],
+                           // filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             enabledBorder: OutlineInputBorder(
@@ -167,6 +214,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _passwordController,
                           obscureText: algo.obscureText,
                           decoration: InputDecoration(
+                            hintText: "Password",
+
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             enabledBorder: OutlineInputBorder(
