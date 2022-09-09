@@ -52,7 +52,11 @@ class IntroState extends ChangeNotifier{
 
 
 
+  final int maxCapExtrovertChoices = 3;
+  List<String> currentExtrovertChoices = [];
+  List<String> currentIntrovertChoices = [];
 
+  static List<bool> introvertedHobbiesState = List.filled(introvertedHobbies.length, false);
 
   static List<bool> extrovertedHobbiesState = List.filled(extrovertedHobbies.length, false);
   // Beggining of Sign Up States
@@ -64,9 +68,10 @@ class IntroState extends ChangeNotifier{
     'Road Trips',
     'Cars',
     'Bowling',
-    'Fighting'
+    'Exploring'
+
   ];
-  List<String> introvertedHobbies = [
+  static List<String> introvertedHobbies = [
     'Gaming',
     'Photography',
     'Drawing',
@@ -76,7 +81,9 @@ class IntroState extends ChangeNotifier{
     'Gardening',
     'DIY',
     'Meditation',
-    'Art'
+    'Art',
+    'Debate',
+    'Thrifting'
   ];
 
 

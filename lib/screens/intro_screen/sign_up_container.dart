@@ -110,7 +110,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         Text("None Was Chosen"),
                       Expanded(
                         child: 
-                          ExtrovertedChips()
+                          SingleChildScrollView(child: algo.ExtrovertedActivitesCard ? ExtrovertedChips() :algo.IntrovertedActivitesCard ? IntrovertedChips() : Text("error")
+                          ) 
                           
                         ),
                         //children: [Flexible(child: algo.wrapedChips())],
