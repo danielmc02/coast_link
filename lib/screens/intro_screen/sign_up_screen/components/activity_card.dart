@@ -46,7 +46,7 @@ class ExtrovertedActivites extends StatelessWidget {
                       children: [
                         FittedBox(child: Text(
                             textAlign: TextAlign.center,
-                            "Extroverted Activites",
+                            "I'm an extrovert ",
                             style: Theme.of(context).textTheme.headline5,
                           )),
                           Text(
@@ -114,7 +114,7 @@ class IntrovertedActivites extends StatelessWidget {
                       children: [
                         FittedBox(child: Text(
                             textAlign: TextAlign.center,
-                            "Introverted Activites",
+                            "I'm an introvert",
                             style: Theme.of(context).textTheme.headline5,
                           )),
                           Text(

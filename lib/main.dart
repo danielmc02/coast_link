@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       
       title: 'Flutter Demo',
       theme: ThemeData(
-        useMaterial3: false,
+        //useMaterial3: false,
         textTheme:  TextTheme(
           headline1: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 96,fontWeight: FontWeight.w300),
           headline2: GoogleFonts.oswald(fontStyle: FontStyle.normal,fontSize: 60,fontWeight: FontWeight.w300),

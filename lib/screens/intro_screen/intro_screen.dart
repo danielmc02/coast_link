@@ -1,11 +1,11 @@
 import 'package:coast_link/screens/intro_screen/sign_up_container.dart';
+import 'package:coast_link/screens/intro_screen/sign_up_screen/components/google_sign_in_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/sliding_sheet.dart';
 import '../../state_providers/home_state_provider.dart';
 import '../../state_providers/intro_state_provider.dart';
-
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -43,7 +43,7 @@ class _IntroScreenState extends State<IntroScreen>
             controller: algo.pageController,
             physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
-            children:const [ IntroPage(),  SignUpPage()],
+            children: const [IntroPage(), SignUpPage()],
           ),
         ));
   }
@@ -141,7 +141,9 @@ class _IntroPageState extends State<IntroPage> {
                           /* showMaterialModalBottomSheet(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),context: context, builder: (context)=>
                                  );
                                 */
-                          algo.panelState == PanelState.CLOSED ? algo.panelActivate() : algo.panelDeactivate();
+                          algo.panelState == PanelState.CLOSED
+                              ? algo.panelActivate()
+                              : algo.panelDeactivate();
                         },
                         style: ButtonStyle(
                           side: MaterialStateProperty.all(
@@ -163,7 +165,9 @@ class _IntroPageState extends State<IntroPage> {
                               "Sign In",
                               style: TextStyle(fontSize: 80),
                             )))),
-                      )
+                      ),
+                                          GoogleSignInButton()
+
                     ]),
               ),
             ),
@@ -172,17 +176,32 @@ class _IntroPageState extends State<IntroPage> {
             controller: algo.panelController,
             panel: Padding(
               padding: const EdgeInsets.all(20),
-              child: Card(elevation: 0,
+              child: Card(
+                elevation: 0,
                 color: Colors.transparent,
                 child: Column(
                   children: [
-                    Row(mainAxisSize: MainAxisSize.max,children: [GestureDetector(onTap: () => algo.panelDeactivate(),child: const Icon(Icons.close))],),
-                    const Spacer(
-                      flex: 10,
+                    
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Spacer(flex: 1,),
+                        GestureDetector(
+                            onTap: () => algo.panelDeactivate(),
+                            child: const Icon(Icons.close)),
+                            Spacer(flex: 25,),
+                         Text(
+                          "Welcome, back!",
+                          style: Theme.of(context).textTheme.headline4,textAlign: TextAlign.end,
+                        ),
+                        Spacer(flex: 50,)
+                      ],
                     ),
-                    const Text(
-                      "Welcome, back!",
-                      style: TextStyle(fontSize: 30),
+                    Divider(thickness: 2,),
+                    const Spacer(
+                      flex: 2,
                     ),
                     const Spacer(flex: 10),
                     TextFormField(
@@ -202,8 +221,7 @@ class _IntroPageState extends State<IntroPage> {
                             borderSide: const BorderSide(color: Colors.red)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                                const BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                       ),
                     ),
                     const Spacer(
@@ -229,12 +247,11 @@ class _IntroPageState extends State<IntroPage> {
                             borderSide: const BorderSide(color: Colors.red)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                                const BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                       ),
                     ),
                     const Spacer(
-                      flex: 50,
+                      flex: 20,
                     ),
                     TextButton(
                       onPressed: () {
@@ -262,8 +279,8 @@ class _IntroPageState extends State<IntroPage> {
                           )))),
                     ),
                     const Spacer(
-                      flex: 15,
-                    )
+                      flex: 100,
+                    ),
                   ],
                 ),
               ),

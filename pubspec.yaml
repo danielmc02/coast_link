@@ -44,6 +44,7 @@ dependencies:
   google_mobile_ads: ^2.0.1
   latlong2: ^0.8.1
   google_fonts: ^3.0.1
+  google_sign_in: ^5.4.1
 
 dev_dependencies:
   flutter_test:

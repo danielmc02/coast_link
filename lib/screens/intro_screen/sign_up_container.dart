@@ -135,6 +135,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         "Add a profile photo, name and bio to let people know who you are",
                         style: Theme.of(context).textTheme.subtitle2,
                       )),
+                      Spacer(),
                        Align(
                         
                           alignment: Alignment.center,
