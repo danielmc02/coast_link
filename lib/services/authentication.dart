@@ -1,12 +1,11 @@
+import 'package:coast_link/services/database/firestore_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthServices
 {
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
-late User _user = _auth.currentUser!;
-
+static final FirebaseAuth _auth = FirebaseAuth.instance;
+static late User user = _auth.currentUser!;
 //Stream for wrapper to observe user state
   Stream<User?> getuser() async* {
     yield* _auth.userChanges();
@@ -26,6 +25,8 @@ late User _user = _auth.currentUser!;
       User? user = userCredential.user;
       debugPrint(user.toString());
       debugPrint("Sucess user signed in. Welcome ${user!.uid.toString()}");
+      //Create user entity
+      FireCloudServices().createUserInstanceInDb(user.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');

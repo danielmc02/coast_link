@@ -175,8 +175,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: TextFormField(
                           controller: _emailController,
                           validator: (value) =>
-                              value!.contains("@student.cccd.edu") != true
-                                  ? "Email must end in @student.cccd.edu"
+                              value!.length <= 0
+                                  ? "Email can not be empty"
                                   : null,
                           decoration: InputDecoration(
                             hintText: "Email",
