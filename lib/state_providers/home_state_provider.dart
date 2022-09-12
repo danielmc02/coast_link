@@ -1,4 +1,4 @@
-import 'package:coast_link/services/authentication.dart';
+import 'package:coast_link/services/authentication/authentication.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/home_screen/pages/connect_page.dart';

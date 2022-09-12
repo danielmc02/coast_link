@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:coast_link/screens/intro_screen/sign_up_screen/components/activity_card.dart';
-import 'package:coast_link/services/authentication.dart';
+import 'package:coast_link/services/authentication/authentication.dart';
 import 'package:coast_link/services/database/firestore_database.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:coast_link/components/sliding_sheet.dart';
 
@@ -103,7 +105,35 @@ class IntroState extends ChangeNotifier{
     notifyListeners();
   }
   
+  var currentUserBio = null;
 
+  File? broadImage;
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future chooseImage() async {
+    final imagePick = await _picker.pickImage(source: ImageSource.gallery);
+    if (imagePick != null) {
+      broadImage = File(imagePick.path);
+    } else {
+      print("error occured");
+    }
+    notifyListeners();
+  }
+
+  bool createAccount()
+  {
+    if(ExtrovertedActivitesCard || IntrovertedActivitesCard)
+    {
+      print('Can continue since is assigned a genre');
+      return true;
+    }
+    else
+    {
+      print('fetched false');
+      return false;
+    }
+  }
 
 }
 

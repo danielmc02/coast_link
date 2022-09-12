@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:coast_link/services/database/firestore_database.dart';
+import 'package:coast_link/services/storage/storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthServices
 {
 static final FirebaseAuth _auth = FirebaseAuth.instance;
-static late User user = _auth.currentUser!;
+ late User user = _auth.currentUser!;
 //Stream for wrapper to observe user state
   Stream<User?> getuser() async* {
     yield* _auth.userChanges();
@@ -14,7 +17,7 @@ static late User user = _auth.currentUser!;
 
 
 //Sign up with email and password
-  Future signUpEmailPassword(String emailAddress, String password) async {
+  Future signUpEmailPassword(String emailAddress, String password, File? file, String name) async {
     print(emailAddress);
     try {
       debugPrint(
@@ -27,7 +30,10 @@ static late User user = _auth.currentUser!;
       debugPrint(user.toString());
       debugPrint("Sucess user signed in. Welcome ${user!.uid.toString()}");
       //Create user entity
-      FireCloudServices().createUserInstanceInDb(user.uid);
+      String photoUrl = await StorageServices().submitPhoto(file,user.uid);
+       FireCloudServices().createUserInstanceInDb(user.uid,name);
+      user.updateDisplayName(name);
+      user.updatePhotoURL(photoUrl);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');

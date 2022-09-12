@@ -15,11 +15,13 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+    late TextEditingController _nameController;
+
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-
+  _nameController = TextEditingController();
     super.initState();
   }
 
@@ -27,6 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -118,163 +121,233 @@ class _SignUpPageState extends State<SignUpPage> {
                       //children: [Flexible(child: algo.wrapedChips())],
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      FittedBox(
-                        child: Text(
-                          'Complete your profile',
-                          style: Theme.of(context).textTheme.headline4,
-                        ),
-                      ),
-                      FittedBox(
-                          child: Text(
-                        textAlign: TextAlign.center,
-                        "Add a profile photo, name and bio to let people know who you are",
-                        style: Theme.of(context).textTheme.subtitle2,
-                      )),
-                      Spacer(),
-                       Align(
-                        
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            child: CircleAvatar(
-                              radius: 40.0+30,
-                              backgroundColor: Colors.white,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.yellow,
-                                foregroundColor: Colors.yellow,
-                                backgroundImage: NetworkImage(
-                                  'https://depositphotos.com/stock-photos/default-profile-photo.html'
-                                ),
-                                radius: 38.0+30,
-                                child:  Align(
-                                  alignment: Alignment.topRight,
+                  Scaffold(
+                    body: SingleChildScrollView(
+                      physics: PageScrollPhysics(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          FittedBox(
+                            child: Text(
+                              'Complete your profile',
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                          ),
+                          FittedBox(
+                              child: Text(
+                            textAlign: TextAlign.center,
+                            "Add a profile photo, name and bio to let people know who you are",
+                            style: Theme.of(context).textTheme.subtitle2,
+                          )),
+                          //  Spacer(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              //print("object");
+
+                              algo.chooseImage();
+                            },
+                            child: ClipOval(
+                              child: algo.broadImage != null
+                                  ? Image.file(
+                                      algo.broadImage!,
+                                      width: 180,
+                                      height: 180,
+                                      fit: BoxFit.cover,
+                                      scale: 1,
+                                    )
+                                  : const ClipOval(
+                                      child: CircleAvatar(
+                                          minRadius: 80,
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: Color.fromARGB(
+                                                255, 115, 115, 115),
+                                            size: 90,
+                                          ))),
+                            ),
+                          )
+                          /*
+                             Align(
+                              
+                                alignment: Alignment.center,
+                                child: SizedBox(
                                   child: CircleAvatar(
-                                    
-                                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                                    radius: 12.0+15,
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      size: 15.0+15,
-                                      color: Color(0xFF404040),
+                                    radius: 40.0+30,
+                                    backgroundColor: Colors.white,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.yellow,
+                                      foregroundColor: Colors.yellow,
+                                      backgroundImage: algo.broadImage == null ? AssetImage('assets/emoji_faces_smilling-in-clouds.png') :;
+                                      radius: 38.0+30,
+                                      child:  Align(
+                                        alignment: Alignment.topRight,
+                                        child: CircleAvatar(
+                                          
+                                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                                          radius: 12.0+15,
+                                          child: Icon(
+                                            Icons.camera_alt,
+                                            size: 15.0+15,
+                                            color: Color(0xFF404040),
+                                          ),
+                                        ),
+                                      ),
+                                     
                                     ),
                                   ),
                                 ),
-                               
+                              ),*/
+                          // , const Spacer(
+                          // flex: 10,
+                          //),
+                       ,  SizedBox(height: 20,) , SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            child: TextFormField(maxLength: 20,
+                              controller: _nameController,
+                              validator: (value) => value!.length <= 0
+                                  ? "Name can not be empty"
+                                  : null,
+                              decoration: InputDecoration(
+                                hintText: "Enter your name",
+
+                                fillColor: Colors.grey[200],
+                                // filled: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black)),
                               ),
                             ),
                           ),
-                        ),
-                      const Spacer(
-                        flex: 10,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        child: TextFormField(
-                          controller: _emailController,
-                          validator: (value) =>
-                              value!.length <= 0
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            child: TextFormField(
+                              controller: _emailController,
+                              validator: (value) => value!.length <= 0
                                   ? "Email can not be empty"
                                   : null,
-                          decoration: InputDecoration(
-                            hintText: "Email",
+                              decoration: InputDecoration(
+                                hintText: "Email",
 
-                            fillColor: Colors.grey[200],
-                           // filled: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.red)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.black)),
+                                fillColor: Colors.grey[200],
+                                // filled: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black)),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        child: TextFormField(
-                          validator: (String? value) {
-                            if (value!.length < 6) {
-                              return 'Password must be greater than 6 characters';
-                            }
-                            return null;
-                          },
-                          maxLines: 1,
-                          controller: _passwordController,
-                          obscureText: algo.obscureText,
-                          decoration: InputDecoration(
-                            hintText: "Password",
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            child: TextFormField(
+                              validator: (String? value) {
+                                if (value!.length < 6) {
+                                  return 'Password must be greater than 6 characters';
+                                }
+                                return null;
+                              },
+                              maxLines: 1,
+                              controller: _passwordController,
+                              obscureText: algo.obscureText,
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black)),
+                                suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        algo.changeText();
+                                      });
+                                    },
+                                    child: algo.obscureText
+                                        ? const Icon(Icons.visibility_off)
+                                        : const Icon(Icons.visibility)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          TextButton(
+                            onPressed: () async {
+                              if (algo.formGlobalKey.currentState!.validate()) {
+                                if(algo.createAccount())
+                                {
+                                   await algo.auth.signUpEmailPassword(
+                                    _emailController.text,
+                                    _passwordController.text, algo.broadImage, _nameController.text);
+                                }
+                                else
+                                {
+                                  print('pick niche');
+                                }
 
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.red)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.black)),
-                            suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    algo.changeText();
-                                  });
-                                },
-                                child: algo.obscureText
-                                    ? const Icon(Icons.visibility_off)
-                                    : const Icon(Icons.visibility)),
+
+                               // await algo.auth.signUpEmailPassword(
+                                //    _emailController.text,
+                                 //   _passwordController.text);
+                              }
+                            },
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20))),
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.black),
+                                foregroundColor:
+                                    MaterialStateProperty.all(Colors.white)),
+                            child: const SizedBox(
+                                height: 30,
+                                width: 200,
+                                child: Center(
+                                    child: FittedBox(
+                                        child: Text(
+                                  "Sign Up",
+                                  style: TextStyle(fontSize: 80),
+                                )))),
                           ),
-                        ),
+
+                        ],
                       ),
-                      const Spacer(
-                        flex: 10,
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          if (algo.formGlobalKey.currentState!.validate()) {
-                            print(_emailController.text);
-                            await algo.auth.signUpEmailPassword(
-                                _emailController.text,
-                                _passwordController.text);
-                          }
-                        },
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.black),
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.white)),
-                        child: const SizedBox(
-                            height: 30,
-                            width: 200,
-                            child: Center(
-                                child: FittedBox(
-                                    child: Text(
-                              "Sign Up",
-                              style: TextStyle(fontSize: 80),
-                            )))),
-                      ),
-                      const Spacer(
-                        flex: 2,
-                      )
-                    ],
+                    ),
                   ),
                 ],
               ),
