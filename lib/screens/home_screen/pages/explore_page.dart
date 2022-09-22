@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:coast_link/components/map_choices_cards.dart';
 import 'package:coast_link/components/sliding_sheet.dart';
 import 'package:coast_link/screens/forms/create_a_group.dart';
@@ -11,17 +13,38 @@ class MapPage extends StatelessWidget {
   const MapPage({Key? key}) : super(key: key);
 
   @override
+  void initState() {
+    //if user
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<HomeState>(
       builder: (context, algo, child) => Stack(
         children: [
           FlutterMap(
+              options: MapOptions(
+                onTap: (tapPosition, point) => print(point),
+                interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                keepAlive: true,
+                maxBounds: LatLngBounds(
+                  LatLng(-90, -180.0),
+                  LatLng(90.0, 180.0),
+                ),
+                minZoom: 14,
+                maxZoom: 18,
+                zoom: 14,//17,
+                center: LatLng(33.67159, -117.912125994873046875),
+              ),
               children: [
                 TileLayer(
                   userAgentPackageName: 'com.example.coast_link',
                   urlTemplate:
                       "http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga",
                   //maxZoom: 40
+                ),
+                Container(
+                  color: Color.fromARGB(135, 255, 242, 241),
                 ),
                 MarkerLayer(markers: [
                   Marker(
@@ -39,20 +62,7 @@ class MapPage extends StatelessWidget {
                       width: 70,
                       height: 70)
                 ])
-              ],
-              options: MapOptions(
-                onTap: (tapPosition, point) => print(point),
-                interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-                keepAlive: true,
-                maxBounds: LatLngBounds(
-                  LatLng(-90, -180.0),
-                  LatLng(90.0, 180.0),
-                ),
-                minZoom: 16,
-                maxZoom: 18,
-                zoom: 17,
-                center: LatLng(33.67159, -117.912125994873046875),
-              )), //33.66034,-117.9158099029541015625,
+              ]), //33.66034,-117.9158099029541015625,
           /*Container(
               color: Color.fromARGB(79, 0, 0, 0),
               child: Column(
@@ -70,10 +80,13 @@ class MapPage extends StatelessWidget {
               ),
             )*/
           SlidingUpPanel(
-            minHeight: 60,
+            minHeight: 200, //60
             panel: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(14.0),
               child: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisSize: MainAxisSize.max,
@@ -95,13 +108,46 @@ class MapPage extends StatelessWidget {
                       ))
                     ],
                   ),
-                 const  Spacer(flex: 1,), 
-                 CreateAGroup(),
-                 CircleAvatar(
-                  backgroundImage: NetworkImage(algo.auth.user.photoURL.toString()),
-                  radius: 50,
-                 )
-                 
+                  SizedBox(height:20,),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage(algo.auth.user.photoURL!),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Flexible(
+                          child: FittedBox(
+                              child: Text(
+                        algo.auth.user.displayName.toString(),
+                        style: Theme.of(context).textTheme.headline3,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )))
+                    ],
+                  ),
+                  SizedBox(height: 50,),
+                  Container(
+                    height: 200,
+                    child: ListView(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        CreateAGroup(),
+                        CreateAGroup(),
+                        CreateAGroup(),
+                                          TextButton(
+                      onPressed: () {
+                        print(algo.auth.user);
+                      },
+                      child: Text('safsd'))
+                      ],
+                    ),
+                  ),
+
+
                 ],
               ),
             ),
@@ -110,12 +156,19 @@ class MapPage extends StatelessWidget {
           ),
           SafeArea(
             top: true,
-            child: Row(mainAxisSize: MainAxisSize.max,children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(radius: 30,child: Icon(Icons.menu,size:30),backgroundColor: Color.fromARGB(127, 255, 255, 255),),
-              )
-            ],),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Color.fromARGB(127, 255, 255, 255),
+                    child: Icon(Icons.menu, size: 30),
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),

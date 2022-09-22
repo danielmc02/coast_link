@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:coast_link/services/database/firestore_database.dart';
@@ -30,10 +31,27 @@ static final FirebaseAuth _auth = FirebaseAuth.instance;
       debugPrint(user.toString());
       debugPrint("Sucess user signed in. Welcome ${user!.uid.toString()}");
       //Create user entity
-      String photoUrl = await StorageServices().submitPhoto(file,user.uid);
-       FireCloudServices().createUserInstanceInDb(user.uid,name);
-      user.updateDisplayName(name);
-      user.updatePhotoURL(photoUrl);
+      debugPrint("Creating user entity");
+      Timer(Duration(seconds: 2), () async{
+        debugPrint("Starting process");
+           String link = await StorageServices().submitPhoto(file,user.uid);
+           debugPrint("Just submited photo with uid");
+           debugPrint("The link is $link");
+     FireCloudServices().createUserInstanceInDb(user.uid,name);
+     debugPrint("Just established user in DB");
+     debugPrint("About to update display name");
+     await user.updateDisplayName(name);
+     debugPrint("Just updated name");
+     debugPrint("About to update url link");
+ await user.updatePhotoURL(link);
+       debugPrint("Just updated photo url");
+
+      print('end of auth');
+
+
+      }
+      );
+     // debugPrint("User entity established");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');

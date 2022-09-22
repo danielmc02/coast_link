@@ -135,6 +135,10 @@ class IntroState extends ChangeNotifier{
     }
   }
 
+  triggerAuth(String email, String password, File? profilePic, String userName) {
+    auth.signUpEmailPassword(email, password, profilePic, userName);
+  } 
+
 }
 
 class FirstTitle extends StatefulWidget {

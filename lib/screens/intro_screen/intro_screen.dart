@@ -33,19 +33,14 @@ class _IntroScreenState extends State<IntroScreen>
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => IntroState()),
-          ChangeNotifierProvider(create: (context) => HomeState())
-        ],
-        child: Consumer<IntroState>(
+    return Consumer<IntroState>(
           builder: (context, algo, child) => PageView(
             controller: algo.pageController,
             physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: const [IntroPage(), SignUpPage()],
           ),
-        ));
+        );
   }
 }
 

@@ -310,9 +310,17 @@ class _SignUpPageState extends State<SignUpPage> {
                               if (algo.formGlobalKey.currentState!.validate()) {
                                 if(algo.createAccount())
                                 {
-                                   await algo.auth.signUpEmailPassword(
+                                  try
+                                  {
+                                   await algo.triggerAuth(
                                     _emailController.text,
                                     _passwordController.text, algo.broadImage, _nameController.text);
+                                  }
+                                  catch(e)
+                                  {
+                                    print(e);
+                                  }
+
                                 }
                                 else
                                 {
