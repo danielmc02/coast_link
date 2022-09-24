@@ -32,7 +32,8 @@ static final FirebaseAuth _auth = FirebaseAuth.instance;
       debugPrint("Sucess user signed in. Welcome ${user!.uid.toString()}");
       //Create user entity
       debugPrint("Creating user entity");
-      Timer(Duration(seconds: 2), () async{
+      //Estamated load time for creating user
+      Timer(Duration(seconds: 5), () async{
         debugPrint("Starting process");
            String link = await StorageServices().submitPhoto(file,user.uid);
            debugPrint("Just submited photo with uid");

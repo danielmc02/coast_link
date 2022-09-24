@@ -31,14 +31,15 @@ class _WrapperState extends State<Wrapper> {
           stream: _auth.getuser(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print(snapshot.data);
               if (snapshot.data!.photoURL == null)
               {
                 print("Screen Change");
-                return LoadingScreen();
+                return  LoadingScreen();
               }
               return const HomeScreen();
             } else {
-              return const  LoadingScreen();//IntroScreen();
+              return const  IntroScreen();
             }
           }),
     );
