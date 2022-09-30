@@ -1,5 +1,6 @@
 import 'package:coast_link/screens/intro_screen/sign_up_screen/components/activity_card.dart';
 import 'package:coast_link/screens/intro_screen/sign_up_screen/components/extroverted_chips.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -84,6 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             runSpacing: 100,
                             children: [
                               ExtrovertedActivites(),
+                              CupertinoSwitch(value: true, onChanged:(bool){} ),
                               IntrovertedActivites()
                             ],
                           ),

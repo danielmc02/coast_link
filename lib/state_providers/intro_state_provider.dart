@@ -70,7 +70,8 @@ class IntroState extends ChangeNotifier{
     'Road Trips',
     'Cars',
     'Bowling',
-    'Exploring'
+    'Exploring',
+    'Roller Skating'
 
   ];
   static List<String> introvertedHobbies = [
